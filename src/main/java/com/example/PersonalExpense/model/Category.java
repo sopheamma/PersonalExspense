@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private LocalDateTime created_at = LocalDateTime.now();

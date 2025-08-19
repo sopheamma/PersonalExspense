@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class CategoryRequest {
     private String name;
-    private LocalDateTime create_at;
+    private Long userId;
+
 
 }

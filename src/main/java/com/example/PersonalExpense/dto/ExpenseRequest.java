@@ -9,13 +9,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class UserRequest {
-    private String username;
-    private String email;
-    private String password;
+public class ExpenseRequest {
+    private Long id;
+    private double amount;
+    private String description;
+    private LocalDate expenseDate;
     private LocalDateTime create_at;
+    private Long userId;
+    private Long categoryId;
 
 }

@@ -18,11 +18,10 @@ import java.time.LocalDateTime;
 public class Expense {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private double amount;
-
     private String description;
     private LocalDate date;
     private LocalDateTime create_at = LocalDateTime.now();

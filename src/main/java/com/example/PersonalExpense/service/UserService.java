@@ -13,4 +13,6 @@ public interface UserService {
    public UserResponse getUserById(Long id);
 
    public UserResponse updateUser(Long id, UserRequest userRequest);
+
+   public void deleteUser(Long id);
 }

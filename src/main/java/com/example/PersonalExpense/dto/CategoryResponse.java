@@ -14,5 +14,6 @@ import java.time.LocalDateTime;
 public class CategoryResponse {
     private Long id;
     private String name;
+    private Long userId;
     private LocalDateTime create_at;
 }
