@@ -15,4 +15,6 @@ public interface ExpenseService {
    public ExpenseResponse updateExpense(Long id, ExpenseResponse expenseResponse);
 
    public void deleteExpense(Long id);
+
+   public List<ExpenseResponse> getExpenseByUserId(Long userId);
 }

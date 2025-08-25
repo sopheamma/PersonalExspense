@@ -18,7 +18,6 @@ public class ExpenseRequest {
     private String description;
     private LocalDate expenseDate;
     private LocalDateTime create_at;
-    private Long userId;
     private Long categoryId;
 
 }

@@ -11,6 +11,10 @@ import com.example.PersonalExpense.repository.UserRepository;
 import com.example.PersonalExpense.service.ExpenseService;
 import com.example.PersonalExpense.service.handler.ExpenseServiceHandler;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +22,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ExpenseServiceImpl implements ExpenseService {
+    private static final Logger log = LoggerFactory.getLogger(ExpenseServiceImpl.class);
 
     private final ExpenseRepository expenseRepository;
     private final CategoryRepository categoryRepository;
@@ -25,8 +30,16 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public ExpenseResponse createExpense(ExpenseRequest expenseRequest) {
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> {
+                    log.error("User not found with username: {}", username);
+                    return new RuntimeException("User not found with username: " + username);
+                });
+
         Category category = categoryRepository.findById(expenseRequest.getCategoryId()).orElseThrow(() -> new RuntimeException("Category not found with id: " + expenseRequest.getCategoryId()));
-        User user = userRepository.findById(expenseRequest.getUserId()).orElseThrow(() -> new RuntimeException("User not found with id: " + expenseRequest.getUserId()));
         Expense expense = ExpenseServiceHandler.maptoExpense(expenseRequest,user,category);
         expenseRepository.save(expense);
 
@@ -65,6 +78,13 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public void deleteExpense(Long id) {
+
         expenseRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ExpenseResponse> getExpenseByUserId(Long userId) {
+
+        return expenseRepository.findByUserId(userId).stream().map(ExpenseServiceHandler::mapToExpenseResponse).toList();
     }
 }
